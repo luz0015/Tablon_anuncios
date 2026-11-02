@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+<div class="d-flex justify-content-between align-items-center mb-4"> 
+    <h4>Panel General de Comunicados</h4> 
+    <a href="{{ url_for('anuncios.nuevo') }}" class="btn btn-success">+ Redactar Anuncio</a> 
+</div> 
+
+{% for a in anuncios %} 
+<div class="card mb-3 bg-white shadow-sm"> 
+    <div class="card-body"> 
+        <h5 class="text-primary mb-3"><b>{{ a.titulo }}</b></h5> 
+    
+        <p class="card-text">{{ a.contenido }}</p> 
+        
+        <hr class="my-3"> 
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-muted"> 
+                Publicado por: <b>{{ a.autor.username }}</b> | 
+                Categoría: <span class="badge bg-secondary">{{ a.categoria.nombre if a.categoria else 'General' }}</span> | 
+                Fecha: {{ a.fecha_creacion.strftime('%d/%m/%Y %H:%M') }} 
+            </small> 
+
+            {% if session.get('usuario_id') == a.usuario_id %} 
+            <div class="d-flex gap-2"> 
+                <a href="/editar/{{ a.id }}" class="btn btn-warning btn-sm">Editar</a> 
+                <form action="/eliminar/{{ a.id }}" method="POST" class="d-inline m-0"> 
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button> 
+                </form> 
+            </div> 
+            {% endif %}
+        </div>
+    </div> 
+</div> 
+{% else %} 
+<div class="alert alert-secondary text-center shadow-sm">No existen anuncios publicados todavía.</div> 
+{% endfor %} 
+{% endblock %}

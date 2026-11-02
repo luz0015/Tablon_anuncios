@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 card p-4 bg-white shadow-sm">
+        <h4>Modificar anuncio</h4>
+        <form method="POST" class="mt-3">
+            <div class="mb-3"><label>Titulo:</label><input type="text" name="titulo" value="{{ anuncio.titulo }}" class="form-control" required></div>
+            <div class="mb-3">
+                <label>Cambiar Categoría:</label>
+                <select name="categoria_id" class="form-select">
+                    <option value="">General</option>
+                    {% for c in categorias %}
+                    <option value="{{ c.id }}" {% if anuncio.categoria_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3"><label>Contenido:</label><textarea name="contenido" rows="5" class="form-control" required>{{ anuncio.contenido }}</textarea></div>
+            <button type="submit" class="btn btn-primary w-100">Guardar cambios</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
